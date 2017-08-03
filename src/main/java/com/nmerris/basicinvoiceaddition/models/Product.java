@@ -1,7 +1,8 @@
-package com.nmerris.basicinvoiceaddition;
+package com.nmerris.basicinvoiceaddition.models;
 
-
+// this is a MODEL
 public class Product {
+    // itemCode is my id, which will be the database key
     private double itemCode;
     private String description;
     private double price;

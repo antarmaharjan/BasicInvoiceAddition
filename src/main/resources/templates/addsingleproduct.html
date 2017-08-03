@@ -2,18 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Add a product</title>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
 </head>
 
 <body>
-<h1>Add a product</h1>
-<form action="#" th:action="@{/addproduct}" th:object="${product}" method="post">
-    <p>Price: <input type="text" th:field="*{price}" /></p>
-    <p>Description: <input type="text" th:field="*{description}" /></p>
-    <p>Item Code: <input type="text" th:field="*{itemCode}" /></p>
+<h1 th:text="${addproductheader}">Add a product fallback to HTML</h1>
 
-    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+<!-- ${foo} means refer to an object named foo -->
+<!-- action="#" is redundant here because we are using thmyeleaf -->
+<form action="#" th:action="@{/addproduct}" th:object="${newproduct}" method="post">
+    <!-- <p> tags below are just so that each field is on a diff line -->
+    <!-- type="text" means its expecting input that is text from user -->
+    <!-- *{price} is like 'this', it refers to the current product object -->
+    <!-- not a bad idea to ALWAYS use type="text" for compatibility, just cast it later -->
+    <p>Price: <input type="text" th:field="*{price}"/></p>
+    <p>Description: <input type="text" th:field="*{description}"/></p>
+    <p>Item Code: <input type="text" th:field="*{itemCode}"/></p>
+
+    <!-- plain old school HTML below -->
+    <!-- submit always goes to a POST method in your controller -->
+    <!-- in this case of course, it will go to /addproduct POST -->
+    <p>
+        <input type="submit" value="Add Product"/>
+        <input type="reset" value="Reset"/>
+    </p>
 </form>
+
 </body>
 
 </html>

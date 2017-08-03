@@ -1,7 +1,7 @@
 package com.nmerris.basicinvoiceaddition.controllers;
 
 
-import com.nmerris.basicinvoiceaddition.Product;
+import com.nmerris.basicinvoiceaddition.models.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.*;
 public class MainController {
 
     @GetMapping("/index")
-    public @ResponseBody
-    String indexPage() {
-        return "<h1>Welcome to the basic invoice web app<h1>";
+    public String indexPage(Model model) {
+        model.addAttribute("welcomemessage", "Welcome to the Invoice App");
+        return "index";
+
     }
 
 
@@ -28,9 +29,13 @@ public class MainController {
     public String addProduct(Model model) {
         // below.. 'product' MUST match th:object="${product}" in addsingleproduct.html file
         // basically 'product' is how we reference a Product object in the html file
-        model.addAttribute("product", new Product());
+        model.addAttribute("newproduct", new Product());
+
+        // populate the <h1> element
+        model.addAttribute("addproductheader", "Add a product");
+
         // below: name of the html file that deals with this
-        // only using addsingleproduce below because intellij won't recognize addproduct.html as an html file
+        // only using addsingleproduct below because intellij won't recognize addproduct.html as an html file
         // normally want to name html file the same as the route name
         return "addsingleproduct";
     }
@@ -38,15 +43,32 @@ public class MainController {
 
     // show the details of the product after user clicks submit
     @PostMapping("/addproduct")
-    public String addProductSubmit(@ModelAttribute Product product) {
+    public String postProduct(@ModelAttribute("addedproduct") Product product) {
+        // 'Product product' above kinda signifies the type that showproductdetails.html
+        // will use, where it is referred to as 'addedproduct'
+
+
+        // HERE ONLY, you can mess with Product product
+        // however, "addedproduct" is what showproductdetails.html uses
+        // so we essentially renamed the thymeleaf reference in this method
+        // in the GetMapping, we called it just "product"
+        // so you can test it any way you want.....
+        System.out.println("Product details: " + product.getDescription());
         return "showproductdetails";
     }
+
+
+
+
 
     // show the details of the product after user clicks submit
     @GetMapping("/showproductdetails")
     public String showProductDetails() {
         return "showproductdetails";
     }
+
+
+
 
 
     @RequestMapping("/listproducts")

@@ -2,13 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Product details</title>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
 </head>
 <body>
 <h1>Product Details</h1>
-<p th:text="'Price: ' + ${product.price}" />
-<p th:text="'Description: ' + ${product.description}" />
-<p th:text="'Item Code: ' + ${product.itemCode}" />
+
+<!--  -->
+<p th:text="'Price: ' + ${addedproduct.price}"/>
+<p th:text="'Description: ' + ${addedproduct.description}"/>
+<p th:text="'Item Code: ' + ${addedproduct.itemCode}"/>
+
 <a href="/addproduct">Add another product</a>
 </body>
 </html>
