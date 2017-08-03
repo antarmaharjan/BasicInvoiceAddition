@@ -2,12 +2,22 @@ package com.nmerris.basicinvoiceaddition.controllers;
 
 
 import com.nmerris.basicinvoiceaddition.models.Product;
+import com.nmerris.basicinvoiceaddition.repositories.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 public class MainController {
+
+    // this allows productRepository to be used throughout this class
+    // so you don't need to keep instantiating it in every method
+    @Autowired
+    ProductRepository productRepository;
 
     @GetMapping("/index")
     public String indexPage(Model model) {
@@ -43,10 +53,23 @@ public class MainController {
 
     // show the details of the product after user clicks submit
     @PostMapping("/addproduct")
-    public String postProduct(@ModelAttribute("addedproduct") Product product) {
+    // add validation
+    // binding result will hold a list of validation errors
+
+    // need to use newproduct again here, because need to pass it back to
+    // addsingleproduct if it has errors, and there it expects the name to be newproduct
+    public String postProduct(@Valid @ModelAttribute("newproduct")
+                                          Product product, BindingResult bindingResult) {
         // 'Product product' above kinda signifies the type that showproductdetails.html
         // will use, where it is referred to as 'addedproduct'
 
+
+        if(bindingResult.hasErrors()) {
+            return "addsingleproduct"; // show the form again if validation error
+        }
+
+        // peep at the validation errors in our console
+        System.out.println(bindingResult.toString());
 
         // HERE ONLY, you can mess with Product product
         // however, "addedproduct" is what showproductdetails.html uses
@@ -54,6 +77,8 @@ public class MainController {
         // in the GetMapping, we called it just "product"
         // so you can test it any way you want.....
         System.out.println("Product details: " + product.getDescription());
+
+        productRepository.save(product); // save it to the db
         return "showproductdetails";
     }
 
@@ -68,6 +93,22 @@ public class MainController {
     }
 
 
+    @GetMapping("/showproducts")
+    public @ResponseBody String showAllProducts() {
+        Iterable<Product> productList = productRepository.findAll();
+//        for(Product p : productList) {
+//            // testing to console
+//            System.out.println(p.getDescription());
+//        }
+
+        // or test to the web
+        // this will output Java's normal memory refs to the page!  Silly!
+        return productList.toString();
+
+        // TODO: use th:each to spit our product list out to the web page
+
+
+    }
 
 
 

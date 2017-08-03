@@ -8,10 +8,11 @@
 <h1>Product Details</h1>
 
 <!--  -->
-<p th:text="'Price: ' + ${addedproduct.price}"/>
-<p th:text="'Description: ' + ${addedproduct.description}"/>
-<p th:text="'Item Code: ' + ${addedproduct.itemCode}"/>
+<p th:text="'Price: ' + ${newproduct.price}"/>
+<p th:text="'Description: ' + ${newproduct.description}"/>
+<p th:text="'Item Code: ' + ${newproduct.itemCode}"/>
 
+<!--initiates a GET back to /addproduct-->
 <a href="/addproduct">Add another product</a>
 </body>
 </html>

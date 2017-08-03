@@ -15,8 +15,14 @@
     <!-- type="text" means its expecting input that is text from user -->
     <!-- *{price} is like 'this', it refers to the current product object -->
     <!-- not a bad idea to ALWAYS use type="text" for compatibility, just cast it later -->
+
     <p>Price: <input type="text" th:field="*{price}"/></p>
-    <p>Description: <input type="text" th:field="*{description}"/></p>
+
+    <!-- TODO: add validation -->
+     <p>Description: <input type="text" th:field="*{description}"/></p>
+
+    <!-- add validation for itemCode -->
+    <span th:if="${#fields.hasErrors('itemCode')}" th:errors="*{itemCode}">ItemCode error></span>
     <p>Item Code: <input type="text" th:field="*{itemCode}"/></p>
 
     <!-- plain old school HTML below -->
